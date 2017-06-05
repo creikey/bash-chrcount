@@ -1,0 +1,45 @@
+#!/bin/bash
+
+if [ "$1" == "-txt" ];
+then
+  text=$(tr -d '\n' < $2)
+  echo "Current text: "
+  echo "$text"
+  cursorpos=0
+  spaces=""
+  SUCCESS=0
+  while :
+  do
+    cursor="^ --Current Character is ""$cursorpos"
+    echo -e -n "\r""$spaces""$cursor"
+    read -n 1 key
+
+    if [ "$key" == "." ]
+    then
+      if [ "$cursorpos" -lt "${#text}" ]
+      then
+        cursorpos=$(($cursorpos + 1))
+        spaces+=" "
+      fi
+    fi
+
+    if [ "$key" == "," ]
+    then
+      if [ "$cursorpos" -gt 0 ]
+      then
+        cursorpos=$(($cursorpos - 1))
+        spaces=${spaces::-1}
+      fi
+    fi
+  done
+
+elif [ "$1" == "-test" ];
+then
+  curnum=0
+  echo -n "Current number is ""$curnum"
+  while :
+  do
+  curnum=$(($curnum + 1))
+  echo -en "\rCurrent number is ""$curnum"
+  done
+fi
