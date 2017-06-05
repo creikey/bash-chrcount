@@ -42,4 +42,35 @@ then
   curnum=$(($curnum + 1))
   echo -en "\rCurrent number is ""$curnum"
   done
+
+elif [ "$1" == "-p" ]
+then
+  echo "Current text:"
+  echo "$2"
+  cursorpos=0
+  spaces=""
+  while :
+  do
+    cursor="^ --Current Character is ""$cursorpos"
+    echo -e -n "\r""$spaces""$cursor"
+    read -n 1 key
+
+    if [ "$key" == "." ]
+    then
+      if [ "$cursorpos" -lt "${#2}" ]
+      then
+        cursorpos=$(($cursorpos + 1))
+        spaces+=" "
+      fi
+    fi
+
+    if [ "$key" == "," ]
+    then
+      if [ "$cursorpos" -gt 0 ]
+      then
+        cursorpos=$(($cursorpos - 1))
+        spaces=${spaces::-1}
+      fi
+    fi
+  done
 fi
